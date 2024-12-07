@@ -1,5 +1,5 @@
-# Ex03 Time Table
-# Date:15.10.2024
+![Screenshot 2024-12-07 214415](https://github.com/user-attachments/assets/b1b56500-9fda-4c74-8dd7-1a3e9a3bda2f)# Ex03 Time Table
+# Date:14.10.2024
 # AIM
 To write a html webpage page to display your slot timetable.
 
@@ -23,8 +23,18 @@ Add your timetable using `<td>` tag.
 Execute the program using runserver command.
 
 # PROGRAM
+
+views.py
 ```
-<!DOCTYPE html>
+from django.http import HttpResponse
+
+def timetable (request):
+    host = request.get_host()
+    port = host.split(':')[1]
+    print(f'The server is running on the port {port}')
+    print('GET request received...')
+    html_content = """
+          <!DOCTYPE html>
 <html>
 <head>
     <title>Table</title>
@@ -190,10 +200,41 @@ Execute the program using runserver command.
     </table>
 </body>
 </html>
+    """
+    response = HttpResponse(html_content, status=200) 
+    print(f'Status code {response.status_code}')
+    print('HTML response sent successfully.')
+    return response 
+ 
 ```
+app urls.py
+```
+from django.urls import path
+from .views import timetable
+
+urlpatterns = [
+    path('', timetable, name='timetable'),
+]
+```
+project urls.py
+```
+from django.contrib import admin
+from django.urls import path ,include
+
+urlpatterns = [
+    path('admin/', admin.site.urls),
+    path('', include('app.urls')),
+]
+```
+
 # OUTPUT
-![Screenshot 2024-12-06 231801](https://github.com/user-attachments/assets/e5ca5685-b002-4a3b-91b9-3bbafe68a28d)
-![Screenshot 2024-12-06 231823](https://github.com/user-attachments/assets/f3883694-d58d-4d7b-b872-d0ab59642a20)
+![Screenshot 2024-12-07 214515](https://github.com/user-attachments/assets/a68b1511-84d4-43ec-8845-7bc216217286)
+![Screenshot 2024-12-07 214547](https://github.com/user-attachments/assets/d10f5865-dc49-4e26-931f-18ae4c46dbae)
+![Screenshot 2024-12-07 214415](https://github.com/user-attachments/assets/b3dcc1b2-4f60-49bc-92ac-b447056f898d)
+
+
+
+
 
 
 # RESULT
